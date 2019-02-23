@@ -2,13 +2,17 @@ package ui;
 
 import java.util.Scanner;
 
+import customExceptions.EnrolledTimeLimitException;
 import customExceptions.QuotaEnrollExceedException;
 import model.Course;
 
 public class Main {
+	private static Scanner in;
+
 	public static void main(String[] args) {
 		Course myCourse;
 		Scanner sc = new Scanner(System.in);
+		in = new Scanner(System.in);
 		
 		System.out.println("Welcome to course management");
 		
@@ -36,7 +40,7 @@ public class Main {
 			System.out.println("5. Exit the program");
 			System.out.print("Please choose an option: ");
 			
-			option = Integer.parseInt(sc.nextLine());
+			option = in.nextInt();
 			
 			String id;
 			switch(option) {
@@ -49,6 +53,9 @@ public class Main {
 					} catch (QuotaEnrollExceedException e) {
 						System.out.println("It was no possible to enroll the student with id "+id);
 						System.out.println(e.getMessage());
+					} catch (EnrolledTimeLimitException d) {
+						System.out.println("It was no possible to enroll the student with id "+id);
+						System.out.println(d.getMessage());
 					}
 				break;
 				case 2:
@@ -69,6 +76,7 @@ public class Main {
 					System.out.println("Student has been graded");
 				break;
 				case 4:
+					myCourse.advanceWeek();
 					System.out.print("The current week has advanced");
 				break;
 				case 5:
